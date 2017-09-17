@@ -18,18 +18,25 @@ const gqlModule = x => {
 
 module.exports = {
 	Query: {
-		modules: async(parent, args, {
-			Module
-		}) => {
+		modules: async(parent, args, {Module}) => {
 			const modules = await Module.find(args)
+			console.log('Results =>', modules.map(x => gqlModule(x)))
 			return modules.map(x => gqlModule(x))
 		},
-		events: async(parent, args, {
-			Event
-		}) => {
+		module: async(parent, args, {Module}) => {
+			const x = await Module.findOne(args)
+			return gqlModule(x)
+		},
+
+		events: async(parent, args, {Event}) => {
 			const events = await Event.find(args)
 			return events.map(x => gqlEvent(x))
 		},
+		event: async(parent, args, {Event}) => {
+			const x = await Event.findOne(args)
+			return gqlEvent(x)
+		},
+		
 	},
 	Mutation: {
 		createModule: async (parent, args, {Module}) => {
