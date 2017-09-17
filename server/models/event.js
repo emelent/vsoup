@@ -4,11 +4,11 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 const schema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: true
+		required: true,
+		uppercase: true
 	},
 	module_id: {
-		type: ObjectId,
-		required: true
+		type: ObjectId
 	},
 	day: {
 		type: String,
@@ -24,10 +24,14 @@ const schema = new mongoose.Schema({
 	},
 	language: {
 		type: String,
+		uppercase: true,
 		required: true
 	},
+	group: {
+		type: String,
+		uppercase: true
+	},
 	date: Date,
-	group: String,
 	author_id: ObjectId
 })
 module.exports = mongoose.model('Event', schema)
