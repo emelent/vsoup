@@ -21,10 +21,40 @@ type Event {
 }
 
 type Query {
-	module: Module!
-	modules:  [Module!]!
-	event: Event!
-	events:  [Event!]!
+	module(
+		name: String
+		code: String
+		period: String
+		lessons: Int
+	): Module
+	modules(
+		name: String
+		code: String
+		period: String
+		lessons: Int
+	): [Module]!
+	event(
+		name: String
+		module_id: ID
+		day: String
+		start: String
+		end: String
+		language: String
+		group: String
+		author_id: ID
+		date: String
+	): Event
+	events(
+		name: String
+		module_id: ID
+		day: String
+		start: String
+		end: String
+		language: String
+		group: String
+		author_id: ID
+		date: String
+	):  [Event]!
 }
 
 type Mutation {
