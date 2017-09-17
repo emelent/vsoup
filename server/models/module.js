@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const schema = new mongoose.Schema({
 	period:{
 		type: String,
-		required: true
+		required: true,
+		uppercase: true
 	},
 	lessons: {
 		type: Number,
@@ -12,12 +13,14 @@ const schema = new mongoose.Schema({
 	name: {
 		type:String,
 		required: true,
-		unique: true
+		unique: true,
+		uppercase: true
 	},
 	code: {
 		type:String,
 		required: true,
-		unique: true
+		unique: true,
+		uppercase: true
 	}
 })
 module.exports = mongoose.model('Module', schema)
