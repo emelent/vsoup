@@ -14,6 +14,7 @@ type Event {
 	day: String!
 	start: String!
 	end: String!
+	venue: String
 	language: String!
 	group: String
 	author_id: ID
@@ -43,6 +44,7 @@ type Query {
 		group: String
 		author_id: ID
 		date: String
+		venue: String
 	): Event
 	events(
 		name: String
@@ -50,6 +52,7 @@ type Query {
 		day: String
 		start: String
 		end: String
+		venue: String
 		language: String
 		group: String
 		author_id: ID
@@ -63,40 +66,42 @@ type Mutation {
 		code: String!
 		period: String!
 		lessons: Int!
-	): Module!
+	): Module
 	updateModule(
 		_id:  ID!
 		name: String
 		code: String
 		period: String
 		lessons: Int
-	): Module!
-	deleteModule(_id: ID): Module!
+	): Module
+	deleteModule(_id: ID): Module
 
 	createEvent(	
 		name: String!
-		module_id: ID!
 		day: String!
 		start: String!
 		end: String!
 		language: String!
 		group: String
-		author_id: ID
+		venue: String
 		date: String
-	): Event!
+		author_id: ID
+		module_id: ID
+	): Event
 	updateEvent(
 		_id: ID!	
 		name: String
 		module_id: ID
 		day: String
+		venue: String
 		start: String
 		end: String
 		language: String
 		group: String
 		author_id: ID
 		date: String
-	): Event!
-	deleteEvent(_id: ID): Event!
+	): Event
+	deleteEvent(_id: ID): Event
 }
 
 `
