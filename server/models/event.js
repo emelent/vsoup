@@ -28,6 +28,6 @@ const schema = new mongoose.Schema({
 	},
 	date: Date,
 	group: String,
-	author: ObjectId
+	author_id: ObjectId
 })
 module.exports = mongoose.model('Event', schema)
