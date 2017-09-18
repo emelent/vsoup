@@ -66,7 +66,7 @@ type Mutation {
 		code: String!
 		period: String!
 		lessons: Int!
-	): Module
+	): Module!
 	updateModule(
 		_id:  ID!
 		name: String
@@ -87,7 +87,7 @@ type Mutation {
 		date: String
 		author_id: ID
 		module_id: ID
-	): Event
+	): Event!
 	updateEvent(
 		_id: ID!	
 		name: String
