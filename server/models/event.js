@@ -26,6 +26,11 @@ const schema = new mongoose.Schema({
 		type: String,
 		uppercase: true,
 		required: true
+	},	
+	venue: {
+		type: String,
+		uppercase: true,
+		required: true
 	},
 	group: {
 		type: String,
