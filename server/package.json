@@ -4,7 +4,7 @@
   "description": "Vertical Soup Server",
   "main": "server.js",
   "scripts": {
-	  "start": "nodemon --exec babel-node server.js"
+    "start": "nodemon --exec babel-node server.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "express": "^4.15.4",
     "graphql": "^0.10.5",
     "graphql-tools": "^1.2.2",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.10",
     "nodemon": "^1.12.0"
   },
