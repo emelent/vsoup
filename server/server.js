@@ -13,7 +13,7 @@ const schema = makeExecutableSchema({
 })
 
 mongoose.Promise =  global.Promise
-mongoose.connect('mongodb://localhost/mydb')
+mongoose.connect('mongodb://localhost/mydb', {useMongoClient: true})
 
 const app = express()
 const port = 5000
