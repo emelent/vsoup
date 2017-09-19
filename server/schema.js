@@ -21,12 +21,28 @@ type Event {
 	date: String
 }
 
+type Timetable{
+	_id: String!
+	author_id: ID!
+	events: [ID!]!
+	modules: [ID!]!
+}
+type TimetableAlias{
+	timetable_id: ID!
+	author_id: ID!
+}
+
+type User {
+	_id: ID!
+	student_id: String!
+	modules: [ID]
+	timetables: [ID]
+	timetable_aliases: [TimetableAlias]
+}
+
 type Query {
 	module(
-		name: String
 		code: String
-		period: String
-		lessons: Int
 	): Module
 	modules(
 		name: String
@@ -34,18 +50,9 @@ type Query {
 		period: String
 		lessons: Int
 	): [Module]!
-	event(
-		name: String
-		module_id: ID
-		day: String
-		start: String
-		end: String
-		language: String
-		group: String
-		author_id: ID
-		date: String
-		venue: String
-	): Event
+
+
+	event(_id:ID!): Event
 	events(
 		name: String
 		module_id: ID
@@ -58,6 +65,25 @@ type Query {
 		author_id: ID
 		date: String
 	):  [Event]!
+
+	user(
+		name: String
+		_id: ID
+		student_id: String
+	): User
+	users: [User]!
+
+	timetablesByModules(
+		modules: [ID]!
+		exclude_author_id: ID
+	): Timetable
+
+	timetablesByAuthor(
+		author_id: ID!
+	): Timetable
+
+	timetables:[Timetable]!
+
 }
 
 type Mutation {
@@ -75,6 +101,7 @@ type Mutation {
 		lessons: Int
 	): Module
 	deleteModule(_id: ID): Module
+
 
 	createEvent(	
 		name: String!
@@ -102,6 +129,35 @@ type Mutation {
 		date: String
 	): Event
 	deleteEvent(_id: ID): Event
+
+	createUser(
+		student_id: String!
+		password: String!
+	): String!
+	login(
+		student_id: String!
+		password: String!
+	): String!
+	updateUser(
+		name: String
+		modules: [ID]
+	): [ID]!
+	deleteUser(
+		_id: ID!
+	): User
+
+	createTimetable(
+		alias: String!
+	): Timetable!
+	deleteTimetable(
+		_id: ID!
+	): Timetable
+	updateTimetable(
+		_id: ID!
+		events: [ID]
+		alias: String
+	): Timetable
+	
 }
 
 `
