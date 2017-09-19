@@ -2,7 +2,7 @@ const {
 	GraphQLError
 } = require('graphql')
 const ObjectId = require('mongoose').Types.ObjectId
-
+const {validateToken} = require('./utils')
 const inflateId = id => ObjectId.createFromHexString(id)
 
 const gqlEvent = x => {
@@ -46,9 +46,9 @@ const gqlTimetable = x => {
 
 module.exports = {
 	Query: {
-		modules: async(parent, args, {
-			Module
-		}) => {
+		modules: async(parent, args, {Module, req}) => {
+			const token = req.get('authorization').split(' ')[1]
+			console.log('auth =>', validateToken(token))
 			const modules = await Module.find(args).exec()
 			return modules.map(x => gqlModule(x))
 		},
@@ -208,6 +208,31 @@ module.exports = {
 			}
 
 			return timetable.save().then(x => gqlTimetable(x))
+		},
+
+		updateUser: async (parent, args, {User}) => {
+			//check if user is admin or owner
+			const {_id, modules, timetables, name, group} = args
+			const x = await User.findById(inflateId(_id)).exec()
+			if(modules){
+				x.modules = modules.map(x => inflateId(x))
+			}
+			if(timetables){
+				x.timetables = timetables.map(x => inflateId(x))
+			}
+			if(name){
+				x.name = name
+			}
+			if(group){
+				//TODO check if admin
+				x.group = group
+			}
+			return x.save().then(x => gqlUser(x))
+		},
+		deleteUser: async (parent, args, {User}) => {
+			const _id = ObjectId.createFromHexString(args._id)
+			const x = await User.findByIdAndRemove(_id).exec()
+			return gqlUser(x)			
 		}
 	},
 };

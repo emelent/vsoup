@@ -29,7 +29,7 @@ type Timetable{
 }
 type TimetableAlias{
 	timetable_id: ID!
-	author_id: ID!
+	alias: String!
 }
 
 type User {
@@ -100,7 +100,7 @@ type Mutation {
 		period: String
 		lessons: Int
 	): Module
-	deleteModule(_id: ID): Module
+	deleteModule(_id: ID!): Module
 
 
 	createEvent(	
@@ -128,23 +128,16 @@ type Mutation {
 		author_id: ID
 		date: String
 	): Event
-	deleteEvent(_id: ID): Event
+	deleteEvent(_id: ID!): Event
 
-	createUser(
-		student_id: String!
-		password: String!
-	): String!
-	login(
-		student_id: String!
-		password: String!
-	): String!
 	updateUser(
+		_id: ID!
+		group: String
 		name: String
 		modules: [ID]
+		timetables: [ID]
 	): [ID]!
-	deleteUser(
-		_id: ID!
-	): User
+	deleteUser(_id: ID!): User
 
 	createTimetable(
 		alias: String!
