@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
-const ObjectId = mongoose.Schema.Types.ObjectId
+const {ObjectId} = mongoose.Schema.Types
 
 const schema = mongoose.Schema({
 	events: {
 		type: [ObjectId],
-		required: true
+	},
+	modules: {
+		type: [ObjectId],
 	},
 	author_id: {
 		type: ObjectId,
