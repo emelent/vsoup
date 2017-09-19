@@ -1,5 +1,7 @@
 
 module.exports = {
 	Event: require('./event'),
-	Module: require('./module')
+	Module: require('./module'),
+	Timetable: require('./timetable'),
+	User: require('./user')
 }
