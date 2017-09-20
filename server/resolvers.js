@@ -2,7 +2,7 @@ const {
 	GraphQLError
 } = require('graphql')
 const ObjectId = require('mongoose').Types.ObjectId
-const {validateToken, inflateId} = require('./utils')
+const {validateToken, inflateId, isHex} = require('./utils')
 
 
 const gqlEvent = x => {
@@ -14,6 +14,8 @@ const gqlEvent = x => {
 		x.date = x.date.toString()
 	if (x.author_id)
 		x.author_id = x.author_id.toString()
+	if (x.venue)
+		x.venue = x.venue.toString()
 
 	return x
 }
@@ -44,10 +46,22 @@ const gqlTimetable = x => {
 	return x
 }
 
+const gqlVenue = x => {
+	if(!x) return
+	x._id = x._id.toString()
+	return x
+}
+
 module.exports = {
 	Query: {
+		venues: async(parent, args, {Venue, req}) => {
+			const venues = await Venue.find(args).exec()
+			return venues.map(x => gqlVenue(x))
+		},
 		modules: async(parent, args, {Module, req}) => {
-			const modules = await Module.find(args).exec()
+			const modules = await Module.find(args).where(function(){
+				return this.name != null
+			})
 			return modules.map(x => gqlModule(x))
 		},
 		module: async(parent, args, {
@@ -61,6 +75,9 @@ module.exports = {
 		events: async(parent, args, {
 			Event
 		}) => {
+			if(args.venue && isHex(args.venue)){
+				args.venue = inflateId(args.venue)
+			}
 			const events = await Event.find(args).exec()
 			return events.map(x => gqlEvent(x))
 		},
@@ -116,6 +133,21 @@ module.exports = {
 
 	},
 	Mutation: {
+		createVenue: async (parent, args, {Venue}) => {
+			const x = await new Venue(args).save()
+			return gqlVenue(x)
+		},
+		updateVenue: async (parent, args, {Venue}) => {
+			const _id = ObjectId.createFromHexString(args._id)
+			delete args._id
+			const x = await Venue.findByIdAndUpdate(_id, args).exec()
+			return gqlModule(x)
+		},
+		deleteVenue: async (parent, args, {Venue}) => {
+			const _id = ObjectId.createFromHexString(args._id)
+			const x = await Venue.findByIdAndRemove(_id).exec()
+			return gqlModule(x)
+		},
 		createModule: async(parent, args, {
 			Module
 		}) => {
@@ -142,12 +174,18 @@ module.exports = {
 		createEvent: async(parent, args, {
 			Event
 		}) => {
+			if(args.venue && isHex(args.venue)){
+				args.venue = inflateId(args.venue)
+			}
 			const x = await new Event(args).save()
 			return gqlEvent(x)
 		},
 		updateEvent: async(parent, args, {
 			Event
 		}) => {
+			if(args.venue && isHex(args.venue)){
+				args.venue = inflateId(args.venue)
+			}
 			const _id = ObjectId.createFromHexString(args._id)
 			delete args._id
 			const x = await Event.findByIdAndUpdate(_id, args).exec()
