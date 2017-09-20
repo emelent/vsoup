@@ -34,6 +34,6 @@ const schema = new mongoose.Schema({
 	},
 	date: Date,
 	author_id: ObjectId,
-	venue_id: Mixed
+	venue: Mixed
 })
 module.exports = mongoose.model('Event', schema)
