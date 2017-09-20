@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const ObjectId = mongoose.Schema.Types.ObjectId
+const {ObjectId, Mixed} = mongoose.Schema.Types
 
 const schema = new mongoose.Schema({
 	name: {
@@ -27,16 +27,12 @@ const schema = new mongoose.Schema({
 		uppercase: true,
 		required: true
 	},	
-	venue: {
-		type: String,
-		uppercase: true,
-		required: true
-	},
 	group: {
 		type: String,
 		uppercase: true
 	},
 	date: Date,
-	author_id: ObjectId
+	author_id: ObjectId,
+	venue_id: Mixed
 })
 module.exports = mongoose.model('Event', schema)
