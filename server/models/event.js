@@ -12,7 +12,8 @@ const schema = new mongoose.Schema({
 	},
 	day: {
 		type: String,
-		required: true
+		required: true,
+		uppercase: true
 	},
 	start: {
 		type: String,
