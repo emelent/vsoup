@@ -42,8 +42,18 @@ type User {
 	timetables: [ID]
 	timetable_aliases: [TimetableAlias]
 }
+type Venue {
+	_id: ID!
+	name: String!
+}
 
 type Query {
+	venues:[Venue!]!
+	venue(
+		name:String
+		_id: ID
+	): Venue
+
 	module(
 		code: String
 	): Module
@@ -90,6 +100,13 @@ type Query {
 }
 
 type Mutation {
+	createVenue(name:String!): Venue!
+	updateVenue(
+		_id: ID!
+		name:String!
+	): Venue
+	deleteVenue(_id: ID!): Venue
+
 	createModule(
 		name: String!
 		code: String!
