@@ -34,6 +34,7 @@ type TimetableAlias{
 
 type User {
 	_id: ID!
+	name: String!
 	student_id: String!
 	modules: [ID]
 	timetables: [ID]
