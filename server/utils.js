@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const hash = require('jshashes')
 
-
+const sha256 = new hash.SHA256
 // sign with RSA SHA256
 const privateCert = fs.readFileSync('key.pem')
 const publicCert = fs.readFileSync('cert.pem')
@@ -20,7 +21,7 @@ const validateToken = token => {
 }
 
 //TODO implement
-const hashPassword = password => password
+const hashPassword = password => sha256.hex(password)
 
 module.exports = {
 	createToken,
