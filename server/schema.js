@@ -137,7 +137,7 @@ type Mutation {
 		name: String
 		modules: [ID]
 		timetables: [ID]
-	): [ID]!
+	): User
 	deleteUser(_id: ID!): User
 
 	createTimetable(
