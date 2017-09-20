@@ -88,18 +88,22 @@ module.exports = {
 			Timetable
 		}) => {
 			const modules = args.modules.map(x => inflateId(x))
-			const timetables = await Timetable.find()
-					.where('modules').in(modules)
-					.find().exec()
-			
+			let timetables = []
+			if(args.strict){
+				timetables = await Timetable.find()
+					.where('modules').size(modules.length).exec()
+			}else{
+				timetables = await Timetable.find()
+					.where('modules').in(modules).exec()
+			}
 			return timetables.map(x => gqlTimetable(x))
 		},
 		timetablesByAuthor: async(parent, args, {
 			Timetable
 		}) => {
 			const timetables = await Timetable.find({
-				author_id: ObjectId.createFromHexString(args.author_id)
-			})
+				author_id: inflateId(args.author_id)
+			}).exec()
 			return timetables.map(x => gqlTimetable(x))
 		},
 

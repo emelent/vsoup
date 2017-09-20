@@ -78,6 +78,7 @@ type Query {
 
 	timetablesByModules(
 		modules: [ID]!
+		strict: Boolean
 	): [Timetable]!
 
 	timetablesByAuthor(
