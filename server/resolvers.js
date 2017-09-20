@@ -59,9 +59,7 @@ module.exports = {
 			return venues.map(x => gqlVenue(x))
 		},
 		modules: async(parent, args, {Module, req}) => {
-			const modules = await Module.find(args).where(function(){
-				return this.name != null
-			})
+			const modules = await Module.find(args).exec()
 			return modules.map(x => gqlModule(x))
 		},
 		module: async(parent, args, {
