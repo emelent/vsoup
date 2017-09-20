@@ -160,6 +160,7 @@ module.exports = {
 		createTimetable: async(parent, args, {
 			Timetable
 		}) => {
+			//TODO use a real user id from  token
 			const data = { ...args,
 				author_id: ObjectId().toString()
 			}
