@@ -22,7 +22,7 @@ type Event {
 }
 
 type Timetable{
-	_id: String!
+	_id: ID!
 	author_id: ID!
 	events: [ID!]!
 	modules: [ID!]!
@@ -76,12 +76,11 @@ type Query {
 
 	timetablesByModules(
 		modules: [ID]!
-		exclude_author_id: ID
-	): Timetable
+	): [Timetable]!
 
 	timetablesByAuthor(
 		author_id: ID!
-	): Timetable
+	): [Timetable]!
 
 	timetables:[Timetable]!
 

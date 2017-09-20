@@ -47,8 +47,6 @@ const gqlTimetable = x => {
 module.exports = {
 	Query: {
 		modules: async(parent, args, {Module, req}) => {
-			const token = req.get('authorization').split(' ')[1]
-			console.log('auth =>', validateToken(token))
 			const modules = await Module.find(args).exec()
 			return modules.map(x => gqlModule(x))
 		},
@@ -89,17 +87,11 @@ module.exports = {
 		timetablesByModules: async(parent, args, {
 			Timetable
 		}) => {
-			const timetables = await Timetable.find().$where(function () {
-				if (args.exclude_author_id == this.author_id.toString())
-					return false
-
-				const modules = this.modules.map(m => m.toString())
-				for (let m of args.modules) {
-					if (modules.indexOf(m) < 0)
-						return false
-				}
-				return true
-			})
+			const modules = args.modules.map(x => inflateId(x))
+			const timetables = await Timetable.find()
+					.where('modules').in(modules)
+					.find().exec()
+			
 			return timetables.map(x => gqlTimetable(x))
 		},
 		timetablesByAuthor: async(parent, args, {
