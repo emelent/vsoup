@@ -2,8 +2,8 @@ const {
 	GraphQLError
 } = require('graphql')
 const ObjectId = require('mongoose').Types.ObjectId
-const {validateToken} = require('./utils')
-const inflateId = id => ObjectId.createFromHexString(id)
+const {validateToken, inflateId} = require('./utils')
+
 
 const gqlEvent = x => {
 	if (!x) return
