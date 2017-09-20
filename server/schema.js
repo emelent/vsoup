@@ -26,7 +26,9 @@ type Timetable{
 	author_id: ID!
 	events: [ID!]!
 	modules: [ID!]!
+	name: String!
 }
+
 type TimetableAlias{
 	timetable_id: ID!
 	alias: String!
@@ -140,7 +142,7 @@ type Mutation {
 	deleteUser(_id: ID!): User
 
 	createTimetable(
-		alias: String!
+		name: String!
 	): Timetable!
 	deleteTimetable(
 		_id: ID!
