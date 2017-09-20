@@ -20,14 +20,18 @@ const validateToken = (token, options) => {
 	return null
 }
 
-//TODO implement
+
 const hashPassword = password => sha256.hex(password)
 
 const inflateId = id => ObjectId.createFromHexString(id)
+
+//Implement
+const isHex = val => val.length === 24
 
 module.exports = {
 	createToken,
 	validateToken,
 	hashPassword,
-	inflateId
+	inflateId,
+	isHex
 }
