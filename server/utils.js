@@ -26,7 +26,10 @@ const hashPassword = password => sha256.hex(password)
 const inflateId = id => ObjectId.createFromHexString(id)
 
 //Implement
-const isHex = val => val.length === 24
+const isHex = val => {
+	const reg = new RegExp(/^[0-9a-f]{24}$/i)
+	return reg.test(val)
+}
 
 module.exports = {
 	createToken,
