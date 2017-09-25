@@ -5,6 +5,13 @@ const ObjectId = require('mongoose').Types.ObjectId
 const {validateToken, inflateId, isHex} = require('./utils')
 
 
+//=========================
+// Transformer Functions
+//
+// These functions transform the given model to the form required
+// by the graphql schema created. This is mostly transforming
+// ObjectId types to strings.
+//=========================
 const gqlEvent = x => {
 	if (!x) return
 	x._id = x._id.toString()
@@ -52,13 +59,48 @@ const gqlVenue = x => {
 	return x
 }
 
+
 module.exports = {
 	Query: {
-		venues: async(parent, args, {Venue, req}) => {
+		//=======================
+		// VENUE QUERIES
+		//=======================
+
+		venues: async(parent, args, {Venue}) => {
 			const venues = await Venue.find(args).exec()
 			return venues.map(x => gqlVenue(x))
 		},
-		modules: async(parent, args, {Module, req}) => {
+		venue: async (parent, args, {Venue}) => {
+			const x = await Venue.findOne(args).exec()
+			return gqlVenue(x)
+		},
+		emptyVenues: async (parent, args, {Venue, Event}) => {
+			//get all events happening now
+			const events = await Event.find().where('end')
+				.gt(args.time).exec()
+				// .gt(args.time).exec()
+			console.log(`events at ${args.time} =>`, events)
+			const venueIds = events.map(x => x._id.toString())
+			console.log('venueIds >', venueIds)
+			// get all venues with id's not found in array
+			// i.e, the venues not being used
+			let venues = await Venue.find().exec()
+			venues.forEach(x => {
+				if(venueIds.indexOf(x._id.toString()) > -1)
+					console.log(x._id)
+				else
+					console.log('nope')
+			})
+			// console.log('venues =>', venues)
+			return venues.map(x => gqlVenue(x))
+		},
+
+		
+		//=======================
+		// MODULE QUERIES
+		//=======================
+
+		modules: async(parent, args, {Module}) => {
 			const modules = await Module.find(args).exec()
 			return modules.map(x => gqlModule(x))
 		},
@@ -69,6 +111,10 @@ module.exports = {
 			return gqlModule(x)
 		},
 
+
+		//=======================
+		// EVENT QUERIES
+		//=======================
 
 		events: async(parent, args, {
 			Event
@@ -86,6 +132,10 @@ module.exports = {
 			return gqlEvent(x)
 		},
 
+
+		//=======================
+		// USER QUERIES
+		//=======================
 		user: async(parent, args, {
 			User
 		}) => {
@@ -99,6 +149,10 @@ module.exports = {
 			return users.map(x => gqlUser(x))
 		},
 
+
+		//=======================
+		// TIMETABLE QUERIES
+		//=======================
 		timetablesByModules: async(parent, args, {
 			Timetable
 		}) => {
@@ -131,6 +185,10 @@ module.exports = {
 
 	},
 	Mutation: {
+
+		//=======================
+		// VENUE MUTATIONS
+		//=======================
 		createVenue: async (parent, args, {Venue}) => {
 			const x = await new Venue(args).save()
 			return gqlVenue(x)
@@ -146,6 +204,10 @@ module.exports = {
 			const x = await Venue.findByIdAndRemove(_id).exec()
 			return gqlModule(x)
 		},
+
+		//=======================
+		// MODULE MUTATIONS
+		//=======================
 		createModule: async(parent, args, {
 			Module
 		}) => {
@@ -168,7 +230,9 @@ module.exports = {
 			return gqlModule(x)
 		},
 
-
+		//=======================
+		// EVENT MUTATIONS
+		//=======================
 		createEvent: async(parent, args, {
 			Event
 		}) => {
@@ -197,6 +261,9 @@ module.exports = {
 			return gqlEvent(x)
 		},
 
+		//=======================
+		// TIMETABLE MUTATIONS
+		//=======================
 		createTimetable: async(parent, args, {
 			Timetable
 		}) => {
@@ -243,6 +310,9 @@ module.exports = {
 			return timetable.save().then(x => gqlTimetable(x))
 		},
 
+		//=======================
+		// USER MUTATIONS
+		//=======================
 		updateUser: async (parent, args, {User}) => {
 			//check if user is admin or owner
 			const {_id, modules, timetables, name, group} = args

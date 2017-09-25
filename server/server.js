@@ -13,23 +13,32 @@ const schema = makeExecutableSchema({
 	resolvers
 })
 
+//set mongoose to return standard Javascript Promises instead of Mongoose promises
+//so we can use await/async stuff.
 mongoose.Promise =  global.Promise
 mongoose.connect('mongodb://localhost/mydb', {useMongoClient: true})
 
 const app = express()
 const port = 5000
 const db = mongoose.connection
-const authRouter = require('./auth')(db, models.User)
 
+//create authentication router
+const authRouter = require('./auth')(db, models.User)
+//attach authentication router
+app.use('/auth',  authRouter)
+
+//attach graphql router
 app.use('/graphql', 
 	bodyParser.json(), 
 	graphqlExpress(req => ({
 		schema, 
 		context: {...models, req}
 	}))
-);
+)
+
+//attach graphiql
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
-app.use('/auth',  authRouter)
+
 
 app.listen(port, () => {
 	console.log(`Listening on :${port}`)

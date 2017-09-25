@@ -6,7 +6,24 @@ const expiresIn = '2d'
 
 const fail = (res, code, msg) => res.status(code).json(msg)
 
+/**
+ * Creates a new json webt token with the expiray date set to the value
+ * in the expiresIn constant.
+ *  
+ * @param {String} _id 		- User Id string
+ * @param {String} ua		- User agent string
+ * 
+ * @return {Object}
+ */
 const newToken = (_id, ua) => ({token: createToken({_id, ua}, {expiresIn})})
+
+/**
+ * 
+ * @param {mongoose.Connection} db 	- Mongoose database connection
+ * @param {mongoose.User} User 		- User mongoose schema
+ * 
+ * @return express.Router
+ */
 const makeRouter = (db, User) => {
 	const router = express.Router()
 

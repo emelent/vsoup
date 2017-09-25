@@ -1,3 +1,5 @@
+//GraphQL Schema
+
 module.exports = `
 type Module {
 	_id: ID!
@@ -48,15 +50,24 @@ type Venue {
 }
 
 type Query {
+	# Return all venues
 	venues:[Venue!]!
+	# Return venue by _id or name
 	venue(
 		name:String
 		_id: ID
 	): Venue
+	# Return unoccupied venues
+	emptyVenues(
+		time: String!
+	): [Venue]!
 
+	# Return module by code or _id
 	module(
+		_id: String
 		code: String
 	): Module
+	# Return all modules
 	modules(
 		name: String
 		code: String
@@ -64,8 +75,9 @@ type Query {
 		lessons: Int
 	): [Module]!
 
-
+	# Return event by _id
 	event(_id:ID!): Event
+	# Return events
 	events(
 		name: String
 		module_id: ID
@@ -79,22 +91,26 @@ type Query {
 		date: String
 	):  [Event]!
 
+	# Return user by _id and/or student_id
 	user(
-		name: String
 		_id: ID
 		student_id: String
 	): User
+	# Return all users
 	users: [User]!
 
+	# Return timetables that have specified modules
 	timetablesByModules(
 		modules: [ID]!
 		strict: Boolean
 	): [Timetable]!
 
+	# Return timetables by author
 	timetablesByAuthor(
 		author_id: ID!
 	): [Timetable]!
 
+	# Return all timetables
 	timetables:[Timetable]!
 
 }
