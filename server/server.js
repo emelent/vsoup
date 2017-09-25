@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const {graphiqlExpress, graphqlExpress} = require('apollo-server-express')
 const {makeExecutableSchema} = require('graphql-tools')
+const {dbUrl} = require('./globals')
 
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
@@ -16,7 +17,7 @@ const schema = makeExecutableSchema({
 //set mongoose to return standard Javascript Promises instead of Mongoose promises
 //so we can use await/async stuff.
 mongoose.Promise =  global.Promise
-mongoose.connect('mongodb://localhost/mydb', {useMongoClient: true})
+mongoose.connect(dbUrl, {useMongoClient: true})
 
 const app = express()
 const port = 5000
