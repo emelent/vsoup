@@ -1,6 +1,7 @@
 <template>
   <div class="customers">
-	  <div v-show="loading > 0">LOADING...</div>
+	  <div class="f1 w-50" v-show="loading > 0">LOADING...</div>
+	  <div class="fl w-50 bg-light-purple pa2">Nothing bub</div>
 	  <div>{{hello}}</div>
 	  <div class="customers__customer" 
 		v-for="customer in customers"
@@ -48,7 +49,6 @@ export default {
 <style scoped lang="scss">
 	.customers{
 		background-color: #eee;
-		border-radius: 5px;
 
 		&__customer{
 			font-size: 1.2em;
