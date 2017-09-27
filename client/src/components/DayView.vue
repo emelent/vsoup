@@ -1,6 +1,8 @@
 <template>
   <div class="day h-100">
-	  <h3 style="text-transform:capitalize">{{day}}</h3>
+	  <div class="bg-light-purple pa4" style="text-transform:uppercase">
+		{{day}}
+	  </div>
 	  <div class="event" v-for="event in events"  :key="event._id">
 		  {{event.venue}}
 	  </div>

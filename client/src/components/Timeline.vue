@@ -1,6 +1,11 @@
 <template>
 	<div style="flex: 1;" class="h-100">
-		<h3>Timeline</h3>
+		<div class="bg-light-purple pa4" style="text-transform:uppercase">
+			TIME
+	  	</div>
+		<div class="time bg-white" v-for="(time, index) in times" :key="index">
+			{{time}}
+		</div>
 	</div>
 </template>
 <script>
@@ -30,5 +35,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.time{
+	padding: 70px 0;
+	margin: 1px 0;
+}
 </style>

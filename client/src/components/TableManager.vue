@@ -1,6 +1,6 @@
 <template>
 	<div class="absolute h-100 w-100 top-0 left-0">
-		<div class="ttl-week-view flex flex-row fl w-75 h-100 bg-near-white">
+		<div class="ttl-week-view flex flex-row fl w-75 min-h-100 bg-near-white">
 			<timeline />
 			<day-view v-for="(dayEvents, day, index)  in events" :key="index"
 				:day="day" :events="dayEvents"
