@@ -41,6 +41,7 @@ type User {
 	name: String!
 	student_id: String!
 	modules: [ID]
+	active_timetable: ID
 	timetables: [ID]
 	timetable_aliases: [TimetableAlias]
 }

@@ -39,6 +39,9 @@ const gqlUser = x => {
 		x.modules = x.modules.map(y => y.toString())
 	if (x.events)
 		x.events = x.events.map(y => y.toString())
+		x.modules = x.modules.map(y => y.toString())
+	if (x.active_timetable)
+		x.active_timetable = x.active_timetable.toString()
 	return x
 }
 

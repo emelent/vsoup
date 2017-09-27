@@ -25,6 +25,9 @@ const schema = new mongoose.Schema({
 		default: 'STUDENT',
 		uppercase: true
 	},
+	active_timetable: {
+		type: ObjectId
+	},
 	modules: [ObjectId],
 	timetables: [ObjectId],
 	timetable_aliases: [TimetableAlias]
