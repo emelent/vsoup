@@ -2,8 +2,14 @@ const mongoose = require('mongoose')
 const {ObjectId} = mongoose.Schema.Types
 
 const TimetableAlias = new mongoose.Schema({
-	timetable_id: ObjectId,
-	author_id: ObjectId
+	timetable_id: {
+		type: ObjectId,
+		required: true
+	},
+	alias: {
+		type: String,
+		required: true
+	}
 })
 
 const schema = new mongoose.Schema({
