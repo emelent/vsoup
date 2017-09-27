@@ -28,6 +28,18 @@ const authRouter = require('./auth')(db, models.User)
 //attach authentication router
 app.use('/auth',  authRouter)
 
+//cors middleware
+const cors = (req, res, next) => {
+	res.set('Access-Control-Allow-Origin', '*')
+	res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+	res.set('Content-Type', 'application/json')
+	if(req.method === 'OPTIONS')
+		res.sendStatus(200)
+	else
+		next()
+}
+
+app.use(cors)
 //attach graphql router
 app.use('/graphql', 
 	bodyParser.json(), 
