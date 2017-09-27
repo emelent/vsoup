@@ -144,7 +144,7 @@ module.exports = {
 		user: async(parent, args, {
 			User
 		}) => {
-			const x = await User.find(args).exec()
+			const x = await User.findOne(args).exec()
 			return gqlUser(x)
 		},
 		users: async(parent, args, {
@@ -343,7 +343,7 @@ module.exports = {
 			const user = await User.findById(_id).exec()
 
 			if(user.password !== hash)
-				return "Invalid password."
+				return GraphQLError("Invalid password.")
 
 			user.password = hashPassword(args.new_password)
 			return "Password successfully updated."
