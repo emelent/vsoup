@@ -173,6 +173,11 @@ type Mutation {
 		modules: [ID]
 		timetables: [ID]
 	): User
+	updatePassword(
+		_id: ID!
+		password: String!
+		new_password: String!
+	): String
 	deleteUser(_id: ID!): User
 
 	createTimetable(
