@@ -95,7 +95,6 @@ type Query {
 	# Return user by _id and/or student_id
 	user(
 		_id: ID
-		student_id: String
 	): User
 	# Return all users
 	users: [User]!
