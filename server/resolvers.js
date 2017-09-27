@@ -35,13 +35,15 @@ const gqlModule = x => {
 const gqlUser = x => {
 	if (!x) return
 	x._id = x._id.toString()
-	if (x.modules)
-		x.modules = x.modules.map(y => y.toString())
-	if (x.events)
-		x.events = x.events.map(y => y.toString())
-		x.modules = x.modules.map(y => y.toString())
+	x.modules = x.modules.map(y => y.toString())
+	x.timetables = x.timetables.map(y => y.toString())
+	x.timetable_aliases = x.timetable_aliases.map(y => ({
+		timetable_id: y.timetable_id.toString(),
+		alias: y.alias
+	}))
 	if (x.active_timetable)
 		x.active_timetable = x.active_timetable.toString()
+	
 	return x
 }
 
