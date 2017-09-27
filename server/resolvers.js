@@ -2,7 +2,7 @@ const {
 	GraphQLError
 } = require('graphql')
 const ObjectId = require('mongoose').Types.ObjectId
-const {validateToken, inflateId, isHex} = require('./utils')
+const {validateToken, inflateId, isHex, hashPassword} = require('./utils')
 
 
 //=========================
@@ -336,6 +336,17 @@ module.exports = {
 				x.group = group
 			}
 			return x.save().then(x => gqlUser(x))
+		},
+		updatePassword: async (parent, args, {User}) => {
+			const _id = inflateId(args._id)
+			const hash = hashPassword(args.password)
+			const user = await User.findById(_id).exec()
+
+			if(user.password !== hash)
+				return "Invalid password."
+
+			user.password = hashPassword(args.new_password)
+			return "Password successfully updated."
 		},
 		deleteUser: async (parent, args, {User}) => {
 			const _id = ObjectId.createFromHexString(args._id)
