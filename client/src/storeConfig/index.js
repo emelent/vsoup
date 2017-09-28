@@ -1,3 +1,5 @@
+import user from './user'
+
 export default {
 	state: {
 		count: 0,
@@ -35,5 +37,8 @@ export default {
 				commit('incrementBy', amount)
 			}, 1000)
 		}
+	},
+	modules: {
+		user
 	}
 }

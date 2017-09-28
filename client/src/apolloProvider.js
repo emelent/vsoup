@@ -6,7 +6,7 @@ import {
 
 
 const networkInterface = createNetworkInterface({
-	uri: 'http://localhost:4000/graphql',
+	uri: 'http://localhost:5000/graphql',
 	transportBatching: true
 })
 const apolloClient = new ApolloClient({
@@ -16,5 +16,8 @@ const apolloClient = new ApolloClient({
 })
 
 export default new VueApollo({
-	defaultClient: apolloClient
+	defaultClient: apolloClient,
+	defaultOptions: {
+		$loadingKey: 'loading'
+	}
 })

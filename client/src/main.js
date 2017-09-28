@@ -26,5 +26,5 @@ new Vue({
 	
 	store,
 	router,
-	// apolloProvider
+	apolloProvider
 })
